@@ -1,0 +1,233 @@
+// simplifyFIN — Phase 1 schema
+// Private Postgres schema `app` (not exposed via Supabase PostgREST public API)
+// Auth.js tables + money domain (userId on every owned row)
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["app"]
+}
+
+enum AccountType {
+  checking
+  savings
+  credit
+  loan
+  investment
+  other
+
+  @@schema("app")
+}
+
+enum TransactionSource {
+  simplefin
+  csv
+  manual
+
+  @@schema("app")
+}
+
+enum RecurringCadence {
+  weekly
+  monthly
+  yearly
+  custom
+
+  @@schema("app")
+}
+
+enum RecurringKind {
+  subscription
+  emi
+  other
+
+  @@schema("app")
+}
+
+enum RecurringStatus {
+  detected
+  confirmed
+  ignored
+
+  @@schema("app")
+}
+
+enum ConnectionStatus {
+  active
+  error
+  disconnected
+
+  @@schema("app")
+}
+
+model User {
+  id              String    @id @default(cuid())
+  name            String?
+  email           String    @unique
+  emailVerified   DateTime?
+  image           String?
+  defaultCurrency String    @default("USD")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  accounts        Account[]
+  sessions        Session[]
+  bankAccounts    BankAccount[]
+  connections     Connection[]
+  recurringSeries RecurringSeries[]
+
+  @@schema("app")
+}
+
+// Auth.js provider link (not a bank/card — those are BankAccount)
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@schema("app")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@schema("app")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@schema("app")
+}
+
+model Connection {
+  id                 String           @id @default(cuid())
+  userId             String
+  provider           String           @default("simplefin")
+  /// Encrypted SimpleFIN access URL (includes credentials)
+  encryptedAccessUrl String           @db.Text
+  status             ConnectionStatus @default(active)
+  lastSyncAt         DateTime?
+  lastError          String?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@schema("app")
+}
+
+model BankAccount {
+  id           String      @id @default(cuid())
+  userId       String
+  institution  String
+  name         String
+  mask         String?
+  type         AccountType @default(other)
+  currency     String      @default("USD")
+  /// Balance in minor units (cents)
+  balanceCents BigInt?
+  externalId   String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions    Transaction[]
+  recurringSeries RecurringSeries[]
+
+  @@unique([userId, externalId])
+  @@index([userId])
+  @@map("bank_accounts")
+  @@schema("app")
+}
+
+model Transaction {
+  id          String            @id @default(cuid())
+  userId      String
+  accountId   String
+  date        DateTime          @db.Date
+  /// Signed minor units: negative = outflow/spend
+  amountCents BigInt
+  currency    String            @default("USD")
+  payee       String
+  memo        String?
+  category    String?
+  externalId  String?
+  source      TransactionSource @default(manual)
+  fingerprint String
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  account     BankAccount           @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  occurrences RecurringOccurrence[]
+
+  @@unique([accountId, fingerprint])
+  @@unique([accountId, externalId])
+  @@index([userId, date])
+  @@index([accountId, date])
+  @@map("transactions")
+  @@schema("app")
+}
+
+model RecurringSeries {
+  id                 String           @id @default(cuid())
+  userId             String
+  accountId          String?
+  merchantNormalized String
+  typicalAmountCents BigInt
+  currency           String           @default("USD")
+  cadence            RecurringCadence @default(monthly)
+  kind               RecurringKind    @default(other)
+  status             RecurringStatus  @default(detected)
+  nextExpectedDate   DateTime?        @db.Date
+  /// e.g. "0% APR, 12 mo remaining"
+  note               String?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  user        User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account     BankAccount?          @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  occurrences RecurringOccurrence[]
+
+  @@index([userId, status])
+  @@map("recurring_series")
+  @@schema("app")
+}
+
+model RecurringOccurrence {
+  id            String   @id @default(cuid())
+  seriesId      String
+  transactionId String   @unique
+  createdAt     DateTime @default(now())
+
+  series      RecurringSeries @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+  transaction Transaction     @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+
+  @@index([seriesId])
+  @@map("recurring_occurrences")
+  @@schema("app")
+}

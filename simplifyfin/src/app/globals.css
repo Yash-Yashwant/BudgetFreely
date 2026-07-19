@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f3f0e8;
+  --wash: #dfe8e2;
+  --wash-deep: #e8e2d4;
+  --surface: #fffcf6;
+  --ink: #1c2a24;
+  --muted: #5c6b63;
+  --line: #c9d0c8;
+  --accent: #1f6b4a;
+  --accent-hover: #185539;
+  --background: var(--bg);
+  --foreground: var(--ink);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+@keyframes sf-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sf-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sf-rule {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.sf-rise {
+  animation: sf-rise 0.7s ease-out both;
+}
+
+.sf-rise-delay {
+  animation: sf-rise 0.7s ease-out 0.12s both;
+}
+
+.sf-rise-delay-2 {
+  animation: sf-rise 0.7s ease-out 0.24s both;
+}
+
+.sf-fade {
+  animation: sf-fade 1s ease-out 0.2s both;
+}
+
+.sf-rule {
+  transform-origin: left center;
+  animation: sf-rule 0.8s ease-out 0.35s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sf-rise,
+  .sf-rise-delay,
+  .sf-rise-delay-2,
+  .sf-fade,
+  .sf-rule {
+    animation: none;
+  }
+}
