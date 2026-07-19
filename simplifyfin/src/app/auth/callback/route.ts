@@ -1,11 +1,18 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { ensureAppUser } from "@/lib/session";
+import { AccessDeniedError, ensureAppUser } from "@/lib/session";
+
+function safeNextPath(next: string | null): string {
+  if (!next || !next.startsWith("/") || next.startsWith("//")) {
+    return "/home";
+  }
+  return next;
+}
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/dashboard";
+  const next = safeNextPath(searchParams.get("next"));
 
   if (code) {
     const supabase = await createClient();
@@ -23,8 +30,9 @@ export async function GET(request: Request) {
           image: data.user.user_metadata?.avatar_url ?? null,
         });
       } catch (err) {
+        await supabase.auth.signOut();
         const message =
-          err instanceof Error ? err.message : "access_denied";
+          err instanceof AccessDeniedError ? "AccessDenied" : "auth_callback";
         return NextResponse.redirect(
           `${origin}/login?error=${encodeURIComponent(message)}`,
         );

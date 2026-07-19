@@ -6,7 +6,7 @@ export default function RecurringPage() {
       </h1>
       <p className="mt-2 text-[var(--muted)]">
         Detected recurring charges, 0% APR EMIs, and subscriptions — the core of
-        simplifyFIN. Detector ships after transactions are flowing.
+        BudgetFreely. Detector ships after transactions are flowing.
       </p>
     </div>
   );

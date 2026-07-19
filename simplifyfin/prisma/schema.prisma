@@ -1,4 +1,4 @@
-// simplifyFIN — Phase 1 schema
+// BudgetFreely — Phase 1 schema
 // Private Postgres schema `app` (not exposed via Supabase PostgREST public API)
 // Auth.js tables + money domain (userId on every owned row)
 

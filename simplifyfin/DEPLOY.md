@@ -1,4 +1,4 @@
-# Deploy simplifyFIN (Vercel + Porkbun + Google)
+# Deploy BudgetFreely (Vercel + Porkbun + Google)
 
 ## 1. Deploy to Vercel
 
@@ -63,7 +63,7 @@ Update `NEXT_PUBLIC_SITE_URL=https://yourdomain.com` and redeploy.
 
 1. Open `https://yourdomain.com` → landing page
 2. Sign in with Google
-3. Land on `/dashboard`
+3. Land on `/home` (welcome placeholder)
 4. Add an account + transaction
 
 Then return to Phase 1 features: CSV → analytics → recurring → SimpleFIN.

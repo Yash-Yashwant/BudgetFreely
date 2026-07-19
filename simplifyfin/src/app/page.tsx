@@ -6,11 +6,11 @@ import { LandingHero } from "@/components/landing/LandingHero";
 import { LandingWhy } from "@/components/landing/LandingWhy";
 
 export const metadata: Metadata = {
-  title: "simplifyFIN — EMIs, subscriptions, clear numbers",
+  title: "BudgetFreely — EMIs, subscriptions, clear numbers",
   description:
     "Open-source personal finance built around recurring obligations, card-aware spend, and analytics you can trust.",
   openGraph: {
-    title: "simplifyFIN",
+    title: "BudgetFreely",
     description:
       "See every EMI and subscription. Know which card paid.",
     type: "website",

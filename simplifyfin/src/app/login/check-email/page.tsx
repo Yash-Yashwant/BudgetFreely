@@ -3,7 +3,7 @@ export default function CheckEmailPage() {
     <main className="flex flex-1 flex-col items-center justify-center px-6 py-16">
       <div className="w-full max-w-md">
         <p className="font-[family-name:var(--font-display)] text-3xl tracking-tight text-[var(--ink)]">
-          simplifyFIN
+          BudgetFreely
         </p>
         <h1 className="mt-6 text-xl font-medium text-[var(--ink)]">
           Check your email

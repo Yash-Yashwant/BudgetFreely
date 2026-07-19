@@ -21,7 +21,7 @@ export function LandingWhy() {
           Built for the money that repeats
         </h2>
         <p className="mt-3 max-w-2xl text-[var(--muted)]">
-          simplifyFIN started with EMI tracking. Everything else — bank sync,
+          BudgetFreely started with EMI tracking. Everything else — bank sync,
           CSV import, analytics — serves that clarity.
         </p>
 

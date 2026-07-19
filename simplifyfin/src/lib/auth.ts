@@ -8,7 +8,7 @@ const emailServer =
   process.env.EMAIL_SERVER ??
   "smtp://user:pass@smtp.gmail.com:587";
 const emailFrom =
-  process.env.EMAIL_FROM ?? "simplifyFIN <noreply@localhost>";
+  process.env.EMAIL_FROM ?? "BudgetFreely <noreply@localhost>";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,

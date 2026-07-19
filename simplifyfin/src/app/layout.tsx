@@ -14,8 +14,8 @@ const sans = Source_Sans_3({
 
 export const metadata: Metadata = {
   title: {
-    default: "simplifyFIN",
-    template: "%s · simplifyFIN",
+    default: "BudgetFreely",
+    template: "%s · BudgetFreely",
   },
   description:
     "Open-source personal finance — EMIs, subscriptions, bank sync, clear analytics.",

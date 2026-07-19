@@ -14,7 +14,7 @@ export function LandingHero() {
 
       <div className="relative mx-auto w-full max-w-5xl">
         <p className="sf-rise font-[family-name:var(--font-display)] text-5xl tracking-tight text-[var(--ink)] sm:text-7xl md:text-8xl">
-          simplifyFIN
+          BudgetFreely
         </p>
         <div
           aria-hidden

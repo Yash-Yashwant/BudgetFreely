@@ -4,6 +4,7 @@ import { signOut } from "@/app/(app)/auth-actions";
 import { getSessionUser } from "@/lib/session";
 
 const nav = [
+  { href: "/home", label: "Home" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/accounts", label: "Accounts" },
   { href: "/transactions", label: "Transactions" },
@@ -26,10 +27,10 @@ export default async function AppLayout({
       <header className="border-b border-[var(--line)] bg-[var(--surface)]/80 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
           <Link
-            href="/dashboard"
+            href="/home"
             className="font-[family-name:var(--font-display)] text-xl tracking-tight text-[var(--ink)]"
           >
-            simplifyFIN
+            BudgetFreely
           </Link>
           <nav className="flex flex-wrap items-center gap-4 text-sm">
             {nav.map((item) => (

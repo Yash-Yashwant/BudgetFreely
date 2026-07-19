@@ -1,4 +1,4 @@
-# simplifyFIN
+# BudgetFreely
 
 Web app lives in [`simplifyfin/`](./simplifyfin).
 

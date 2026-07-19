@@ -1,4 +1,4 @@
-# simplifyFIN
+# BudgetFreely
 
 Open-source personal finance: bank sync, CSV import, analytics, and first-class **EMI + subscription** tracking.
 
@@ -14,6 +14,7 @@ Open-source personal finance: bank sync, CSV import, analytics, and first-class 
 - [x] App scaffold, auth, schema, money helpers, shell UI
 - [x] Accounts + manual transactions
 - [x] Google Sign-In via Supabase
+- [x] Landing page
 - [ ] CSV import (Apple Card)
 - [ ] SimpleFIN sync (Chase / WF)
 - [ ] Analytics dashboard
@@ -49,6 +50,13 @@ npm run dev
 
 Porkbun domain later: point DNS at Vercel, then set Site URL + redirect URLs + `NEXT_PUBLIC_SITE_URL` to `https://yourdomain.com`.
 
+### Supabase database
+
+1. Create a project at [supabase.com](https://supabase.com)
+2. `DATABASE_URL` = transaction pooler (`:6543`, `?pgbouncer=true&connection_limit=1`)
+3. `DIRECT_URL` = direct / session (`:5432`) for migrations
+4. App tables live in private schema **`app`**
+
 ## Deploy
 
 See [DEPLOY.md](./DEPLOY.md) for Vercel + Porkbun + Google OAuth.
@@ -62,6 +70,6 @@ See [DEPLOY.md](./DEPLOY.md) for Vercel + Porkbun + Google OAuth.
 | `npx prisma migrate dev` | Apply schema |
 | `npx prisma studio` | Browse data |
 
-## Product name
+## Naming
 
-**simplifyFIN** — repo folder `BudgetFreely` / app dir `simplifyfin`.
+**BudgetFreely** is the product. App code lives in the `simplifyfin/` folder (Vercel root directory) — rename later if you want; no need to change deploy root mid-flight.
