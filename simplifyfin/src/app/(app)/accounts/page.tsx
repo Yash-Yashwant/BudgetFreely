@@ -12,8 +12,11 @@ export default async function AccountsPage() {
           Accounts
         </h1>
         <p className="mt-2 text-[var(--muted)]">
-          Cards and banks you spend from. Tag every transaction to an account —
-          SimpleFIN and CSV will fill these later.
+          Cards and banks you spend from. Connect SimpleFIN under{" "}
+          <a href="/settings" className="text-[var(--accent)] hover:underline">
+            Settings
+          </a>{" "}
+          to pull Chase / WF, or add accounts manually for Apple Card CSV later.
         </p>
       </div>
 

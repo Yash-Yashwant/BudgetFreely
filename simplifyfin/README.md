@@ -15,8 +15,8 @@ Open-source personal finance: bank sync, CSV import, analytics, and first-class 
 - [x] Accounts + manual transactions
 - [x] Google Sign-In via Supabase
 - [x] Landing page
+- [x] SimpleFIN sync (Chase / WF)
 - [ ] CSV import (Apple Card)
-- [ ] SimpleFIN sync (Chase / WF)
 - [ ] Analytics dashboard
 - [ ] Recurring / EMI detector
 

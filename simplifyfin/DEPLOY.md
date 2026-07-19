@@ -15,7 +15,8 @@
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://<ref>.supabase.co` |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | anon key |
 | `NEXT_PUBLIC_SITE_URL` | `https://yourdomain.com` (set after DNS) |
-| `AUTH_EMAIL_ALLOWLIST` | optional, comma-separated |
+| `TOKEN_ENCRYPTION_KEY` | Yes for SimpleFIN — `openssl rand -hex 32` |
+| `AUTH_EMAIL_ALLOWLIST` | Optional (your Gmail, comma-separated) |
 
 6. Deploy — you’ll get `https://<project>.vercel.app`
 
